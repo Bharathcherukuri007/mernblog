@@ -34,6 +34,7 @@ jobs:
     - name: npm install and build
       continue-on-error: false
       run: |
-        cd Application
+        cd frontend
+        cd blog
         npm install
         npm run build
