@@ -1,0 +1,39 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  AZURE_WEBAPP_NAME: "reactsdp4"    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: "Application"      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '8.11.1'                        # set this to the node version to use
+  RESOURCEGROUPNAME: "reactsdp4-rg"
+  LOCATION: "South Central US"
+  HOSTINGPLANNAME: "reactsdp4-plan"
+  APPINSIGHTLOCATION: "South Central US"
+  SKU: "S1 Standard"
+
+jobs:
+  build:
+    name: Build and Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: npm install and build
+      continue-on-error: false
+      run: |
+        cd Application
+        npm install
+        npm run build
